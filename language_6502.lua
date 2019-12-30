@@ -86,7 +86,7 @@ syntax.add {
 		["INY"]			= "keyword",
 		["JMP"]			= "keyword",
 		["JSR"]			= "keyword",
-		["LDA"]     = "keyword",
+    ["LDA"]     = "keyword",
     ["LDX"]     = "keyword",
 		["LDY"]     = "keyword",
 		["LSR"]			= "keyword",
@@ -128,7 +128,7 @@ syntax.add {
 		["ENDM"]		= "keyword2",
 		["BYTE"]		= "keyword2",
 		["WORD"]		= "keyword2",
-		["INCLUDE"]		= "keyword2",
+    ["INCLUDE"]		= "keyword2",
 		["INCBIN"]		= "keyword2",
   },
 }
