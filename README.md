@@ -20,4 +20,4 @@ Plugin | Description
 [`sort`](sort.lua?raw=1) | Sorts selected lines alphabetically
 [`titleize`](titleize.lua?raw=1) | Titleizes selected string (`hello world` => `Hello World`)
 [`togglesnakecamel`](togglesnakecamel.lua?raw=1) | Toggles symbols between `snake_case` and `camelCase`
-[`language_glua`](language_glua.lua?raw=1) | Syntax and Keywords for [GLua](https://wiki.facepunch.com/gmod/)
+[`language_glua`](language_glua.lua?raw=1) | Syntax and Keywords for [GMod Lua](https://wiki.facepunch.com/gmod/)
