@@ -7,6 +7,7 @@ Plugins for the [lite text editor](https://github.com/rxi/lite)
 Plugin | Description
 -------|-----------------------------------------
 [`autowrap`](autowrap.lua?raw=1) | Automatically hardwraps lines when typing
+[`language_glua`](language_glua.lua?raw=1) | Syntax and Keywords for [GMod Lua](https://wiki.facepunch.com/gmod/)
 [`gofmt`](gofmt.lua?raw=1) | Auto-formats the current go file, adds the missing imports and the missing return cases
 [`indentguide`](indentguide.lua?raw=1) | Adds [indent guides](https://user-images.githubusercontent.com/3920290/79640716-f9860000-818a-11ea-9c3b-26d10dd0e0c0.png)
 [`language_fe`](language_fe.lua?raw=1) | Syntax for the [fe](https://github.com/rxi/fe) programming language
@@ -20,4 +21,3 @@ Plugin | Description
 [`sort`](sort.lua?raw=1) | Sorts selected lines alphabetically
 [`titleize`](titleize.lua?raw=1) | Titleizes selected string (`hello world` => `Hello World`)
 [`togglesnakecamel`](togglesnakecamel.lua?raw=1) | Toggles symbols between `snake_case` and `camelCase`
-[`language_glua`](language_glua.lua?raw=1) | Syntax and Keywords for [GMod Lua](https://wiki.facepunch.com/gmod/)
