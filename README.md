@@ -7,11 +7,11 @@ Plugins for the [lite text editor](https://github.com/rxi/lite)
 Plugin | Description
 -------|-----------------------------------------
 [`autowrap`](autowrap.lua?raw=1) | Automatically hardwraps lines when typing
-[`language_glua`](language_glua.lua?raw=1) | Syntax and Keywords for [GMod Lua](https://wiki.facepunch.com/gmod/)
 [`gofmt`](gofmt.lua?raw=1) | Auto-formats the current go file, adds the missing imports and the missing return cases
 [`indentguide`](indentguide.lua?raw=1) | Adds [indent guides](https://user-images.githubusercontent.com/3920290/79640716-f9860000-818a-11ea-9c3b-26d10dd0e0c0.png)
 [`language_fe`](language_fe.lua?raw=1) | Syntax for the [fe](https://github.com/rxi/fe) programming language
 [`language_go`](language_go.lua?raw=1) | Syntax for the [Go](https://golang.org/) programming language
+[`language_glua`](language_glua.lua?raw=1) | Syntax and Keywords for [GMod Lua](https://wiki.facepunch.com/gmod/)
 [`language_jiyu`](language_jiyu.lua?raw=1) | Syntax for the [jiyu](https://github.com/machinamentum/jiyu) programming language
 [`language_odin`](language_odin.lua?raw=1) | Syntax for the [Odin](https://github.com/odin-lang/Odin) programming language
 [`language_psql`](language_psql.lua?raw=1) | Syntax for the postgresql database access language
