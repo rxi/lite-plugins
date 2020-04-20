@@ -10,6 +10,9 @@ otherwise the plugin file itself can be submitted.*
 Plugin | Description
 -------|-----------------------------------------
 [`autowrap`](autowrap.lua?raw=1) | Automatically hardwraps lines when typing
+[`changesyntax`](changesyntax.lua?raw=1) | Lets you change the syntax of the open file
+[`cutcopyline`](cutcopyline.lua?raw=1) | When the selection size is zero, cut/copy the entire line
+[`drawwhitespace`](drawwhitespace.lua?raw=1) | Draw tabs and spaces
 [`gofmt`](gofmt.lua?raw=1) | Auto-formats the current go file, adds the missing imports and the missing return cases
 [`indentguide`](indentguide.lua?raw=1) | Adds [indent guides](https://user-images.githubusercontent.com/3920290/79640716-f9860000-818a-11ea-9c3b-26d10dd0e0c0.png)
 [`language_fe`](language_fe.lua?raw=1) | Syntax for the [fe](https://github.com/rxi/fe) programming language
@@ -21,6 +24,7 @@ Plugin | Description
 [`language_rust`](language_rust.lua?raw=1) | Syntax for the [Rust](https://rust-lang.org/) programming language
 [`language_wren`](language_wren.lua?raw=1) | Syntax for the [Wren](http://wren.io/) programming language
 [`macmodkeys`](macmodkeys.lua?raw=1) | Remaps mac modkeys `command/option` to `ctrl/alt`
+[`opensettings`](opensettings.lua?raw=1) | Lets you quickly open the `data/user/init.lua` file from any instance of lite
 [`sort`](sort.lua?raw=1) | Sorts selected lines alphabetically
 [`theme16`](https://github.com/monolifed/theme16) | Theme manager with base16 themes
 [`titleize`](titleize.lua?raw=1) | Titleizes selected string (`hello world` => `Hello World`)
