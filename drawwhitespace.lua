@@ -5,10 +5,11 @@ local DocView = require "core.docview"
 
 local draw_line_text = DocView.draw_line_text
 
-local text_color = style.text
-local whitespace_color = { text_color[1], text_color[2], text_color[3], 128 }
+local whitespace_color
 
 function DocView:draw_line_text(idx, x, y)
+  whitespace_color = whitespace_color or { style.text[1], style.text[2], style.text[3], 128 }
+
   draw_line_text(self, idx, x, y)
 
   local cl = self:get_cached_line(idx)
@@ -26,3 +27,4 @@ function DocView:draw_line_text(idx, x, y)
     tx = tx + width
   end
 end
+
