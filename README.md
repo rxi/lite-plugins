@@ -25,6 +25,7 @@ Plugin | Description
 [`language_wren`](language_wren.lua?raw=1) | Syntax for the [Wren](http://wren.io/) programming language
 [`macmodkeys`](macmodkeys.lua?raw=1) | Remaps mac modkeys `command/option` to `ctrl/alt`
 [`opensettings`](opensettings.lua?raw=1) | Lets you quickly open the `data/user/init.lua` file from any instance of lite
+[`selectionhighlight`](selectionhighlight.lua?raw=1) | Highlights regions of code that match the current selection
 [`sort`](sort.lua?raw=1) | Sorts selected lines alphabetically
 [`theme16`](https://github.com/monolifed/theme16) | Theme manager with base16 themes
 [`titleize`](titleize.lua?raw=1) | Titleizes selected string (`hello world` => `Hello World`)
