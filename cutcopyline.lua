@@ -15,18 +15,26 @@ command.add(nil, {
   ["doc:cut"] = function()
     local line1, col1, line2, col2 = doc():get_selection(true)
     if line1 == line2 and col1 == col2 then
-      system.set_clipboard(doc():get_text(line1, 1, line1 + 1, 1))
-      doc():remove(line1, 1, line1 + 1, 1)
-     else
+      if line1 == #doc().lines then
+        system.set_clipboard(doc():get_text(line1 - 1, math.huge, line1, math.huge))
+        doc():remove(line1 - 1, math.huge, line1, math.huge)
+        doc():set_selection(line1 - 1, math.huge, line1 - 1, math.huge)
+      else
+        system.set_clipboard(doc():get_text(line1, 1, line1 + 1, 1))
+        doc():remove(line1, 1, line1 + 1, 1)
+        doc():set_selection(line1, 1, line1, 1)
+      end
+    else
       cut_command.perform()
     end
   end,
   ["doc:copy"] = function()
     local line1, col1, line2, col2 = doc():get_selection(true)
     if line1 == line2 and col1 == col2 then
-      system.set_clipboard(doc():get_text(line1, 1, line1 + 1, 1))
+      system.set_clipboard(doc():get_text(line1, 1, line1, math.huge) .. '\n')
     else
       copy_command.perform()
     end
   end,
 })
+
