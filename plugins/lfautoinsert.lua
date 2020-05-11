@@ -19,12 +19,17 @@ config.autoinsert_map = {
   ["%f[%w]function.*%)%s*\n"] = "end",
 }
 
-
-local function indent_size(doc, line)
+local function _indent_size(doc, line)
   local text = doc.lines[line] or ""
   local s, e = text:find("^[\t ]*")
   return e - s
 end
+
+local function _trim(s)
+  local from = s:match"^%s*()"
+  return from > #s and "" or s:match(".*%S", from)
+end
+
 
 command.add("core.docview", {
   ["autoinsert:newline"] = function()
@@ -36,14 +41,23 @@ command.add("core.docview", {
 
     for ptn, close in pairs(config.autoinsert_map) do
       if text:find(ptn) then
-        if  close
-        and col == #doc.lines[line]
-        and indent_size(doc, line + 1) <= indent_size(doc, line - 1)
+        local prev_indent = _indent_size(doc, line - 1)
+        local this_indent = _indent_size(doc, line)
+        local next_indent = _indent_size(doc, line + 1)
+
+        if close
+          and col == #doc.lines[line]
+          and next_indent <= prev_indent
         then
-          command.perform("doc:newline")
-          core.active_view:on_text_input(close)
-          command.perform("doc:move-to-previous-line")
+          local next_line = _trim(doc.lines[line + 1] or "")
+
+          if next_line ~= close or next_indent < this_indent then
+            command.perform("doc:newline")
+            core.active_view:on_text_input(close)
+            command.perform("doc:move-to-previous-line")
+          end
         end
+
         command.perform("doc:indent")
       end
     end
@@ -53,3 +67,4 @@ command.add("core.docview", {
 keymap.add {
   ["return"] = { "command:submit", "autoinsert:newline" }
 }
+
