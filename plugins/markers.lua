@@ -7,17 +7,17 @@ local keymap = require "core.keymap"
 local style = require "core.style"
 local DocView = require "core.docview"
 
-local markers = {}
+local markers = {}  -- this table contains subtables for each document, each subtable is a set of line numbers
+setmetatable(markers, { __mode = 'k' })
 
 local draw_line_gutter = DocView.draw_line_gutter
 
 
 function DocView:draw_line_gutter(idx, x, y)
-  local doc = core.active_view.doc
-  if markers[doc] and markers[doc][idx] then
+  if markers[self.doc] and markers[self.doc][idx] then
     local h = style.code_font:get_height() * 0.8
     renderer.draw_rect(x - 10 * SCALE, y + style.code_font:get_height() * 0.2, 9 * SCALE, h, style.selection)
-  end  
+  end
   draw_line_gutter(self, idx, x, y)
 end
 
