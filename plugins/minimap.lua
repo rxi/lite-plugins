@@ -11,7 +11,6 @@ config.minimap_instant_scroll   = false
 config.minimap_syntax_highlight = true
 config.minimap_scale            = 1
 config.minimap_draw_background  = true
-config.minimap_background_color = style.background
 
 -- Configure size for rendering each char in the minimap
 local char_height  = 1 * SCALE * config.minimap_scale
@@ -121,19 +120,13 @@ DocView.on_mouse_moved = function(self, x, y, dx, dy)
 
     self.scroll.to.y = self.scroll.to.y + delta
   end
-  self.hovered_scrollbar = self:scrollbar_overlaps_point(x, y)
 
-  if self:scrollbar_overlaps_point(x, y) or self.dragging_scrollbar then
-    self.cursor = "arrow"
-  else
-    self.cursor = "ibeam"
-  end
-
-  if self.mouse_selecting then
-    local _, _, line2, col2 = self.doc:get_selection()
-    local line1, col1 = self:resolve_screen_position(x, y)
-    self.doc:set_selection(line1, col1, line2, col2)
-  end
+  -- we need to "hide" that the scrollbar is dragging so that View doesnt does its own scrolling logic
+  local t = self.dragging_scrollbar
+  self.dragging_scrollbar = false
+  local r = prev_on_mouse_moved(self, x, y, dx, dy)
+  self.dragging_scrollbar = t
+  return r
 end
 
 -- Overloaded since we want the mouse to interact with the full size of the minimap area,
@@ -191,7 +184,7 @@ DocView.draw_scrollbar = function (self)
   end
 
   if config.minimap_draw_background then
-    renderer.draw_rect(x, y, w, h, config.minimap_background_color)
+    renderer.draw_rect(x, y, w, h, style.minimap_background or style.background)
   end
   -- draw visual rect
   renderer.draw_rect(x, visible_y, w, scroller_height, visual_color)
