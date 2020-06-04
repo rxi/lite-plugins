@@ -3,6 +3,7 @@ local command = require "core.command"
 local config = require "core.config"
 local keymap = require "core.keymap"
 local style = require "core.style"
+local rootview = require "core.rootview"
 
 config.scale_mode = "code"
 
@@ -67,5 +68,25 @@ keymap.add {
   ["ctrl+-"] = "scale:decrease",
   ["ctrl+="] = "scale:increase",
 }
+
+-- Modify mouse scroll behavior for ctrl key
+rootview.on_mouse_wheel = function(self, ...)
+  local x, y = self.mouse.x, self.mouse.y
+  local node = self.root_node:get_child_overlapping_point(x, y)
+  if keymap.modkeys["ctrl"] then
+    -- Check if we have enough arguments
+    if select('#', ...) > 0 then
+      -- Zoom in or out
+      if (select(1, ...) == 1) then
+        command.perform('scale:increase')
+      else
+        command.perform('scale:decrease')
+      end
+    end
+  else
+    -- Handle mouse wheel normally
+    node.active_view:on_mouse_wheel(...)
+  end
+end
 
 return { set_scale = set_scale }
