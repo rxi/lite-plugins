@@ -1,3 +1,14 @@
+--[[
+    listkeybindings.lua
+    creates a new document and lists all key-bindings
+    version: 20200627_152637
+    originally by SwissalpS
+
+    show-key-binding will list key first then binding
+    show-binding-key will list binding first then key
+
+    If sort plugin is installed, the list will also be sorted.
+--]]
 local core = require "core"
 local command = require "core.command"
 local keymap = require "core.keymap"
