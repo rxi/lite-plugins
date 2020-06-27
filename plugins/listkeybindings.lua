@@ -2,6 +2,16 @@ local core = require "core"
 local command = require "core.command"
 local keymap = require "core.keymap"
 
+local function pasteAndSort(sOut)
+  core.root_view:open_doc(core.open_doc())
+  core.active_view.doc:text_input(sOut)
+  if command.map['sort:sort'] then
+    command.perform('doc:select-all')
+    command.perform('sort:sort')
+    command.perform('doc:select-none')
+  end
+end
+
 local function gatherLists()
 
   local lKeys = {}
@@ -39,8 +49,7 @@ local function listBindingsKey()
     sOut = sOut .. k .. sSpace .. v .. '\n'
   end
 
-  core.root_view:open_doc(core.open_doc())
-  core.active_view.doc:text_input(sOut)
+  pasteAndSort(sOut)
 
 end
 
@@ -59,8 +68,7 @@ local function listKeyBindings()
     sOut = sOut .. k .. sSpace .. v .. '\n'
   end
 
-  core.root_view:open_doc(core.open_doc())
-  core.active_view.doc:text_input(sOut)
+  pasteAndSort(sOut)
 
 end
 
