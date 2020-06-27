@@ -24,7 +24,7 @@ local function gatherLists()
 
 end -- gatherLists
 
-local function listbindingskey()
+local function listBindingsKey()
 
   local sOut = ''
   local lKeys, lBindings, iLongestKey, iLongestBinding = gatherLists()
@@ -44,7 +44,7 @@ local function listbindingskey()
 
 end
 
-local function listkeybindings()
+local function listKeyBindings()
 
   local sOut = ''
   local lKeys, lBindings, iLongestKey, iLongestBinding = gatherLists()
@@ -65,7 +65,7 @@ local function listkeybindings()
 end
 
 command.add("core.docview", {
-  ["listkeybindings:show-key-binding"] = listkeybindings,
-  ["listkeybindings:show-binding-key"] = listbindingskey,
+  ["listkeybindings:show-key-binding"] = listKeyBindings,
+  ["listkeybindings:show-binding-key"] = listBindingsKey,
 })
 
