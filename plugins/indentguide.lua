@@ -1,7 +1,9 @@
 local style = require "core.style"
 local config = require "core.config"
 local DocView = require "core.docview"
+local command = require "core.command"
 
+config.draw_indent_guide = true
 
 local function get_line_spaces(doc, idx, dir)
   local text = doc.lines[idx]
@@ -33,6 +35,9 @@ end
 local draw_line_text = DocView.draw_line_text
 
 function DocView:draw_line_text(idx, x, y)
+  if not config.draw_indent_guide then
+    return draw_line_text(self, idx, x, y)
+  end
   local spaces = get_line_indent_guide_spaces(self.doc, idx)
   local sw = self:get_font():get_width(" ")
   local w = math.ceil(1 * SCALE)
@@ -43,3 +48,9 @@ function DocView:draw_line_text(idx, x, y)
   end
   draw_line_text(self, idx, x, y)
 end
+
+command.add("core.docview", {
+  ["draw-indent-guide:toggle"]  = function() config.draw_indent_guide = not config.draw_indent_guide end,
+  ["draw-indent-guide:disable"] = function() config.draw_indent_guide = false                        end,
+  ["draw-indent-guide:enable"]  = function() config.draw_indent_guide = true                         end,
+})
