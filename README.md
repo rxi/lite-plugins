@@ -78,3 +78,4 @@ Plugin | Description
 [`togglesnakecamel`](plugins/togglesnakecamel.lua?raw=1) | Toggles symbols between `snake_case` and `camelCase`
 [`unboundedscroll`](plugins/unboundedscroll.lua?raw=1) | Allows scrolling outside the bounds of a document
 [`workspace`](plugins/workspace.lua?raw=1) | Retains project's layout and open documents between sessions
+[`zig`](plugins/language_zig.lua?raw=1) | Syntax for the [Zig](https://ziglang.org) programming language
