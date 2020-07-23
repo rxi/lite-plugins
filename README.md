@@ -68,6 +68,7 @@ Plugin | Description
 [`motiontrail`](plugins/motiontrail.lua?raw=1) | Adds a motion-trail to the caret *([screenshot](https://user-images.githubusercontent.com/3920290/83256814-085ccb00-a1ab-11ea-9e35-e6633cbed1a9.gif))*
 [`openfilelocation`](plugins/openfilelocation.lua?raw=1) | Opens the parent directory of the current file in the file manager
 [`openselected`](plugins/openselected.lua?raw=1) | Opens the selected filename or url
+[`run`](plugins/run.lua?raw=1) | Runs the currently open file in a terminal window (`f5` or `run:run-doc`)
 [`scale`](plugins/scale.lua?raw=1) | Provides support for dynamically adjusting the scale of the code font / UI (`ctrl+-`, `ctrl+=`)
 [`scalestatus`](plugins/scalestatus.lua?raw=1) | Displays current scale (zoom) in status view (depends on scale plugin)
 [`selectionhighlight`](plugins/selectionhighlight.lua?raw=1) | Highlights regions of code that match the current selection *([screenshot](https://user-images.githubusercontent.com/3920290/80710883-5f597c80-8ae7-11ea-97f0-76dfacc08439.png))*
