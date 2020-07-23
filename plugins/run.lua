@@ -10,6 +10,14 @@ local run = {}
 -- as a script for the given language
 function run.lang(lang)
   return function()
+    local doc = core.active_view.doc
+    if doc.filename then
+      doc:save()
+    else
+      core.error("Cannot run an unsaved file")
+      return
+    end
+
     core.log "Running a file..."
     local cmd = assert(config.run[lang]):format(
       "\"" .. core.active_view.doc.filename .. "\""
@@ -42,26 +50,23 @@ else
   config.run_cmd = "gnome-terminal -x sh -c \"%s; bash\""
 end
 
--- run the current doc based on its extension
-function run.run_file(this)
+-- choose the proper function based on filename
+function run.choose()
   local doc = core.active_view.doc
-  if doc.filename then
-    doc:save()
-  else
-    core.error("Cannot run an unsaved file")
-    return
-  end
-
   for pattern, func in pairs(config.run_files) do
     if common.match_pattern(doc.filename, pattern) then
-      func()
-      break
+      return func
     end
   end
 end
 
+-- run the currently open doc
+function run.run_doc()
+  run.choose()()
+end
+
 command.add("core.docview", {
-  ["run:run-doc"] = run.run_file,
+  ["run:run-doc"] = run.run_doc,
 })
 
 keymap.add {
