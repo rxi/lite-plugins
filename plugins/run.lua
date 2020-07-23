@@ -50,19 +50,33 @@ else
   config.run_cmd = "gnome-terminal -x sh -c \"%s; bash\""
 end
 
+local function compare_length(a, b)
+  return a.length > b.length
+end
+
 -- choose the proper function based on filename
 function run.choose()
   local doc = core.active_view.doc
+  local res = {}
   for pattern, func in pairs(config.run_files) do
-    if common.match_pattern(doc.filename, pattern) then
-      return func
+    local s, e = common.match_pattern(doc.filename, pattern)
+    if s then
+      table.insert(res, { func=func, length=e-s })
     end
   end
+  if #res == 0 then return false end
+  table.sort(res, compare_length)
+  return res[1].func
 end
 
 -- run the currently open doc
 function run.run_doc()
-  run.choose()()
+  local func = run.choose()
+  if not func then
+    core.error "No matching run configuration was found"
+    return
+  end
+  func()
 end
 
 command.add("core.docview", {
