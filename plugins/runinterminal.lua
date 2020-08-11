@@ -27,6 +27,17 @@ function run.lang(lang)
   end
 end
 
+-- same as run.lang except it doesn't use the active doc's name
+-- (thus doesn't require a docview to be open)
+function run.build(build)
+  return function()
+    core.log "Running a build..."
+    local cmd = assert(config.run[build])
+
+    os.execute(config.run_cmd:format(cmd))
+  end
+end
+
 -- file extensions and functions
 config.run_files = {
   ["%.py$"] = run.lang "python",
