@@ -47,7 +47,7 @@ config.run = {
 if PLATFORM == "Windows" then
   config.run_cmd = "start cmd /c \"call %s & pause\""
 else
-  config.run_cmd = "gnome-terminal -x sh -c \"%s; bash\""
+  config.run_cmd = (os.getenv("TERMINAL") or "xterm") .. " -x sh -c \"%s; bash\""
 end
 
 local function compare_length(a, b)
