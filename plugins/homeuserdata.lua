@@ -22,7 +22,6 @@ local configs = {
 
 -- load user settings
 for i,dir in ipairs(configs) do
-  local redirect = " 2>/dev/null"
   if system.get_file_info(dir) then
     package.path = package.path .. ";" .. dir .. "/?/init.lua"
     package.path = package.path .. ";" .. dir .. "/?.lua"
@@ -40,7 +39,6 @@ command.add(nil, {
   ["core:open-home-user-module"] = function()
     local directory = nil
     for i,dir in ipairs(configs) do
-      local redirect = " 2>/dev/null"
       if system.get_file_info(dir) then
         directory = dir
       end
