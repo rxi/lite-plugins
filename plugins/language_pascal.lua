@@ -41,6 +41,7 @@ end
 syntax.add {
   files = "%.pas$",
   comment = "{.-}",
+
   patterns = {
     { pattern = "{.-}",                  type = "comment"  },
     { pattern = { "(%*", "%*)" },        type = "comment"  },
