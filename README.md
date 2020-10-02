@@ -17,7 +17,7 @@ Plugin | Description
 [`centerdoc`](plugins/centerdoc.lua?raw=1) | Centers document's content on the screen *([screenshot](https://user-images.githubusercontent.com/3920290/82127896-bf6e4500-97ae-11ea-97fc-ba9a552bc9a4.png))*
 [`colorpreview`](plugins/colorpreview.lua?raw=1) | Underlays color values (eg. `#ff00ff` or `rgb(255, 0, 255)`) with their resultant color. *([screenshot](https://user-images.githubusercontent.com/3920290/80743752-731bd780-8b15-11ea-97d3-847db927c5dc.png))*
 [`console`](https://github.com/rxi/console)* | A console for running external commands and capturing their output *([gif](https://user-images.githubusercontent.com/3920290/81343656-49325a00-90ad-11ea-8647-ff39d8f1d730.gif))*
-[`console-run`](https://github.com/sodomon2/console-run) | a script to execute external commands using [console](https://github.com/rxi/console)
+[`console-run`](https://github.com/sodomon2/console-run) | a plugin that facilitates the execution [console](https://github.com/rxi/console)
 [`copyfilelocation`](plugins/copyfilelocation.lua?raw=1) | Copy file location to clipboard
 [`datetimestamps`](plugins/datetimestamps.lua?raw=1) | Insert date-, time- and date-time-stamps
 [`detectindent`](plugins/detectindent.lua?raw=1) | Automatically detects and uses the indentation size and tab type of a loaded file
