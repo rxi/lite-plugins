@@ -96,14 +96,14 @@ end
 
 command.add(nil, {
   ["scale:reset"   ] = function() set_scale(default)             end,
-  ["scale:decrease"] = function() set_scale(current_scale * 0.9) end,
+  ["scale:decrease"] = function() set_scale(current_scale / 1.1) end,
   ["scale:increase"] = function() set_scale(current_scale * 1.1) end,
 })
 
 keymap.add {
   ["ctrl+0"] = "scale:reset",
   ["ctrl+-"] = "scale:decrease",
-  ["ctrl+="] = "scale:increase",
+  ["ctrl++"] = "scale:increase",
 }
 
 return { get_scale = get_scale, set_scale = set_scale }
