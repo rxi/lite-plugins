@@ -58,6 +58,8 @@ local function set_scale(scale)
   if config.scale_mode == "ui" then
     SCALE = current_scale
 
+    config.treeview_size = config.treeview_size * s
+
     style.padding.x      = style.padding.x      * s
     style.padding.y      = style.padding.y      * s
     style.divider_size   = style.divider_size   * s
