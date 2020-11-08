@@ -83,4 +83,5 @@ Plugin | Description
 [`todotreeview`](https://github.com/drmargarido/TodoTreeView)* | Todo tree viewer for annotations in code like `TODO`, `BUG`, `FIX`, `IMPROVEMENT`
 [`togglesnakecamel`](plugins/togglesnakecamel.lua?raw=1) | Toggles symbols between `snake_case` and `camelCase`
 [`unboundedscroll`](plugins/unboundedscroll.lua?raw=1) | Allows scrolling outside the bounds of a document
+[`userconfig`](plugins/userconfig.lua?raw=1) | Replaces `data/user` with a correct app config directory. Ex: `~/.lite`. Supports XDG_CONFIG_HOME
 [`workspace`](plugins/workspace.lua?raw=1) | Retains project's layout and open documents between sessions
