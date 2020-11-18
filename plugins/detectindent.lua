@@ -7,18 +7,67 @@ local Doc = require "core.doc"
 local cache = setmetatable({}, { __mode = "k" })
 
 
-local function detect_indent(doc)
-  for _, text in ipairs(doc.lines) do
-    local str = text:match("^  +")
-    if str then return "soft", #str end
+local function add_to_stat(stat, val)
+  for i = 1, #stat do
+    if val == stat[i][1] then
+      stat[i][2] = stat[i][2] + 1
+      return
+    end
+  end
+  stat[#stat + 1] = {val, 1}
+end
+
+
+local function optimal_indent_from_stat(stat)
+  if #stat == 0 then return nil, 0 end
+  local bins = {}
+  for k = 1, #stat do
+    local indent = stat[k][1]
+    local score = 0
+    local mult_prev, lines_prev
+    for i = k, #stat do
+      if stat[i][1] % indent == 0 then
+        local mult = stat[i][1] / indent
+        if not mult_prev or (mult_prev + 1 == mult and lines_prev / stat[i][2] > 0.1) then
+          -- we add the number of lines to the score only if the previous
+          -- multiple of "indent" was populated with enough lines.
+          score = score + stat[i][2]
+        end
+        mult_prev, lines_prev = mult, stat[i][2]
+      end
+    end
+    bins[#bins + 1] = {indent, score}
+  end
+  table.sort(bins, function(a, b) return a[2] > b[2] end)
+  return bins[1][1], bins[1][2]
+end
+
+local auto_detect_max_lines = 2000
+
+local function detect_indent_stat(doc)
+  local stat = {}
+  local tab_count = 0
+  for i, text in ipairs(doc.lines) do
+    local str = text:match("^ %s+%S")
+    if str then add_to_stat(stat, #str - 1) end
     local str = text:match("^\t+")
-    if str then return "hard" end
+    if str then tab_count = tab_count + 1 end
+    -- Stop parsing when files is very long. Not needed for euristic determination.
+    if i > auto_detect_max_lines then break end
+  end
+  table.sort(stat, function(a, b) return a[1] < b[1] end)
+  local indent, score = optimal_indent_from_stat(stat)
+  if tab_count > score then
+    return "hard"
+  elseif indent then
+    core.log("Auto-indent: using indentation size of %d", indent)
+    return "soft", indent
   end
 end
 
 
 local function update_cache(doc)
-  local type, size = detect_indent(doc)
+  local type, size = detect_indent_stat(doc)
   if type then
     cache[doc] = { type = type, size = size }
   end
