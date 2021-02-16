@@ -21,9 +21,9 @@ end
 local view_states = { }
 
 
-local function find_in_view_state(view_state, node)
+local function find_in_view_state(view_state, node, idx)
   for k, v in pairs(view_state) do
-    if v.node == node then
+    if v.node == node and v.idx == idx then
       return k
     end
   end
@@ -35,31 +35,25 @@ end
 local function save_view_state()
   local node = core.root_view:get_active_node()
   local idx = node:get_view_idx(dv())
+  if dv().doc == nil then
+    return
+  end
+
   local line, col = dv().doc:get_selection(false)
 
-  local view_state = view_states[idx]
-  if view_state == nil then
-    view_state = { }
-  end
+  local ind = find_in_view_state(view_states, node, idx)
 
-  local ind = find_in_view_state(view_state, node)
+  local state = new_weak_table()
+  state.node = node
+  state.idx = idx
+  state.line = line
+  state.col = col
 
-  local state
   if ind > -1 then
-    state = view_state[ind]
-    state.line = line
-    state.col = col
-
-    view_state[ind] = nil
-  else
-    state = new_weak_table()
-    state.node = node
-    state.line = line
-    state.col = col
+    view_states[ind] = nil
   end
 
-  table.insert(view_state, state)
-  view_states[idx] = view_state
+  table.insert(view_states, state)
 end
 
 
@@ -67,17 +61,14 @@ local function restore_view_state()
   local node = core.root_view:get_active_node()
   local idx = node:get_view_idx(dv())
 
-  local view_state = view_states[idx]
-  if view_state then
-    local ind = find_in_view_state(view_state, node)
-    if ind > -1 then
-      local state = view_state[ind]
-      local line = state.line
-      local col = state.col
+  local ind = find_in_view_state(view_states, node, idx)
+  if ind > -1 then
+    local state = view_states[ind]
+    local line = state.line
+    local col = state.col
 
-      dv().doc:set_selection(line, col)
-      dv():scroll_to_line(line, true)
-    end
+    dv().doc:set_selection(line, col)
+    dv():scroll_to_line(line, true)
   end
 end
 
@@ -93,10 +84,23 @@ for _, dir in ipairs { "left", "right", "up", "down" } do
 end
 
 
+for _, dir in ipairs { "previous", "next" } do
+  command.add(nil, {
+    ["stateful-switch:switch-to-" .. dir .. "-tab"] = function ()
+      save_view_state()
+      command.perform("root:switch-to-" .. dir .. "-tab")
+      restore_view_state()
+    end
+  })
+end
+
+
 keymap.add({
   ["alt+j"] = "stateful-switch:switch-to-left",
   ["alt+l"] = "stateful-switch:switch-to-right",
   ["alt+i"] = "stateful-switch:switch-to-up",
-  ["alt+k"] = "stateful-switch:switch-to-down"
+  ["alt+k"] = "stateful-switch:switch-to-down",
+  ["ctrl+tab"] = "stateful-switch:switch-to-next-tab",
+  ["ctrl+shift+tab"] = "stateful-switch:switch-to-previous-tab"
 })
 
