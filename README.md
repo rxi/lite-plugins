@@ -76,6 +76,7 @@ Plugin | Description
 [`motiontrail`](plugins/motiontrail.lua?raw=1) | Adds a motion-trail to the caret *([screenshot](https://user-images.githubusercontent.com/3920290/83256814-085ccb00-a1ab-11ea-9e35-e6633cbed1a9.gif))*
 [`openfilelocation`](plugins/openfilelocation.lua?raw=1) | Opens the parent directory of the current file in the file manager
 [`openselected`](plugins/openselected.lua?raw=1) | Opens the selected filename or url
+[`pluginmanager`](https://github.com/takase1121/lite-plugin-manager)* | A minimalist plugin manager
 [`projectmanager`](plugins/projectmanager.lua?raw=1) | Save projects and load/reload them quickly
 [`rainbowparen`](plugins/rainbowparen.lua?raw=1) | Show nesting of parentheses with rainbow colours
 [`scale`](plugins/scale.lua?raw=1) | Provides support for dynamically adjusting the scale of the code font / UI (`ctrl+-`, `ctrl+=`)
