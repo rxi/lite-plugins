@@ -1,5 +1,6 @@
 local core = require "core"
 local DocView = require "core.docview"
+local LogView = require "core.logview"
 
 local workspace_filename = ".lite_workspace.lua"
 
@@ -137,9 +138,10 @@ local function load_workspace()
   local ok, t = pcall(dofile, workspace_filename)
   os.remove(workspace_filename)
   if ok then
+    local hasLogView = core.active_view:is(LogView)
     local root = get_unlocked_root(core.root_view.root_node)
     local active_view = load_node(root, t)
-    if active_view then
+    if active_view and not hasLogView then
       core.set_active_view(active_view)
     end
   end
