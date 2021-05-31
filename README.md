@@ -16,6 +16,7 @@ Plugin | Description
 [`black`](https://git.sr.ht/~tmpod/black-lite)* | Integrates the [black](https://github.com/psf/black) Python formatter with lite
 [`bracketmatch`](plugins/bracketmatch.lua?raw=1) | Underlines matching pair for bracket under the caret *([screenshot](https://user-images.githubusercontent.com/3920290/80132745-0c863f00-8594-11ea-8875-c455c6fd7eae.png))*
 [`centerdoc`](plugins/centerdoc.lua?raw=1) | Centers document's content on the screen *([screenshot](https://user-images.githubusercontent.com/3920290/82127896-bf6e4500-97ae-11ea-97fc-ba9a552bc9a4.png))*
+[`closeconfirmx`](plugins/closeconfirmx.lua?raw=1) | Replaces a system close confirmation dialog with a command view, like for individual files *([screenshot](https://user-images.githubusercontent.com/1689801/107596774-afa76280-6c53-11eb-80ab-22e73058c097.png))*
 [`colorpreview`](plugins/colorpreview.lua?raw=1) | Underlays color values (eg. `#ff00ff` or `rgb(255, 0, 255)`) with their resultant color. *([screenshot](https://user-images.githubusercontent.com/3920290/80743752-731bd780-8b15-11ea-97d3-847db927c5dc.png))*
 [`console`](https://github.com/rxi/console)* | A console for running external commands and capturing their output *([gif](https://user-images.githubusercontent.com/3920290/81343656-49325a00-90ad-11ea-8647-ff39d8f1d730.gif))*
 [`copyfilelocation`](plugins/copyfilelocation.lua?raw=1) | Copy file location to clipboard
@@ -40,6 +41,7 @@ Plugin | Description
 [`language_cpp`](plugins/language_cpp.lua?raw=1) | Syntax for the [C++](https://isocpp.org/) programming language
 [`language_csharp`](plugins/language_csharp.lua?raw=1) | Syntax for the [C#](http://csharp.net) programming language
 [`language_d`](plugins/language_d.lua?raw=1) | Syntax for the [D](https://dlang.org/) programming language
+[`language_dart`](plugins/language_dart.lua?raw=1) | Syntax for the [Dart](https://dart.dev/) programming languiage
 [`language_elixir`](plugins/language_elixir.lua?raw=1) | Syntax for the [Elixir](https://elixir-lang.org) programming language
 [`language_elm`](plugins/language_elm.lua?raw=1) | Syntax for the [Elm](https://elm-lang.org) programming language
 [`language_fe`](plugins/language_fe.lua?raw=1) | Syntax for the [fe](https://github.com/rxi/fe) programming language
@@ -54,7 +56,9 @@ Plugin | Description
 [`language_ksy`](https://raw.githubusercontent.com/whiteh0le/lite-plugins/main/plugins/language_ksy.lua?raw=1) | Syntax for [Kaitai](http://kaitai.io/) struct files
 [`language_make`](plugins/language_make.lua?raw=1) | Syntax for the Make build system language
 [`language_meson`](plugins/language_meson.lua?raw=1) | Syntax for the [Meson](https://mesonbuild.com) build system language
+[`language_moon`](plugins/language_moon.lua?raw=1) | Syntax for the [MoonScript](https://moonscript.org) scripting language
 [`language_nim`](plugins/language_nim.lua?raw=1) | Syntax for the [Nim](https://nim-lang.org) programming language
+[`language_objc`](plugins/language_objc.lua?raw=1) | Syntax for the [Objective C](https://en.wikipedia.org/wiki/Objective-C) programming language
 [`language_odin`](plugins/language_odin.lua?raw=1) | Syntax for the [Odin](https://github.com/odin-lang/Odin) programming language
 [`language_php`](plugins/language_php.lua?raw=1) | Syntax for the [PHP](https://php.net) programming language
 [`language_pico8`](plugins/language_pico8.lua?raw=1) | Syntax for [Pico-8](https://www.lexaloffle.com/pico-8.php) cartridge files
@@ -74,6 +78,7 @@ Plugin | Description
 [`macmodkeys`](plugins/macmodkeys.lua?raw=1) | Remaps mac modkeys `command/option` to `ctrl/alt`
 [`markers`](plugins/markers.lua?raw=1) | Add markers to docs and jump between them quickly *([screenshot](https://user-images.githubusercontent.com/3920290/82252149-5faaa200-9946-11ea-9199-bea2efb7ee23.png))*
 [`motiontrail`](plugins/motiontrail.lua?raw=1) | Adds a motion-trail to the caret *([screenshot](https://user-images.githubusercontent.com/3920290/83256814-085ccb00-a1ab-11ea-9e35-e6633cbed1a9.gif))*
+[`nagbar`](https://github.com/takase1121/lite-nagbar)* | consistent and _beautiful_ confirmation dialogs for lite and lite-xl *([gif](https://raw.githubusercontent.com/takase1121/lite-nagbar/master/assets/preview.gif))*
 [`openfilelocation`](plugins/openfilelocation.lua?raw=1) | Opens the parent directory of the current file in the file manager
 [`openselected`](plugins/openselected.lua?raw=1) | Opens the selected filename or url
 [`pluginmanager`](https://github.com/takase1121/lite-plugin-manager)* | A minimalist plugin manager
@@ -86,6 +91,7 @@ Plugin | Description
 [`spellcheck`](plugins/spellcheck.lua?raw=1) | Underlines misspelt words *([screenshot](https://user-images.githubusercontent.com/3920290/79923973-9caa7400-842e-11ea-85d4-7a196a91ca50.png))* *— note: on Windows a [`words.txt`](https://github.com/dwyl/english-words/blob/master/words.txt) dictionary file must be placed beside the exe*
 [`tabnumbers`](plugins/tabnumbers.lua?raw=1) | Displays tab numbers from 1–9 next to their names *([screenshot](https://user-images.githubusercontent.com/16415678/101285362-007a8500-37e5-11eb-869b-c10eb9d9d902.png))
 [`theme16`](https://github.com/monolifed/theme16)* | Theme manager with base16 themes
+[`themescheduler`](https://github.com/BenStigsen/lite-config/blob/main/plugins/themescheduler.lua?raw=1) | Schedule themes to be used at certain times
 [`titleize`](plugins/titleize.lua?raw=1) | Titleizes selected string (`hello world` => `Hello World`)
 [`todotreeview`](https://github.com/drmargarido/TodoTreeView)* | Todo tree viewer for annotations in code like `TODO`, `BUG`, `FIX`, `IMPROVEMENT`
 [`togglesnakecamel`](plugins/togglesnakecamel.lua?raw=1) | Toggles symbols between `snake_case` and `camelCase`
