@@ -34,6 +34,7 @@ Plugin | Description
 [`gofmt`](plugins/gofmt.lua?raw=1) | Auto-formats the current go file, adds the missing imports and the missing return cases
 [`hidelinenumbers`](plugins/hidelinenumbers.lua?raw=1) | Hides the line numbers on the left of documents *([screenshot](https://user-images.githubusercontent.com/3920290/81692043-b8b19c00-9455-11ea-8d74-ad99be4b9c5f.png))*
 [`hidestatus`](plugins/hidestatus.lua?raw=1) | Hides the status bar at the bottom of the window
+[`homeuserdata`](plugins/homeuserdata.lua?raw=1) | Loads init.lua from ~/.config/lite or ~/.lite, allowing you to save plugins or color themes on these directories and adds the 'Open Home User Module' command.
 [`inanimate`](plugins/inanimate.lua?raw=1) | Disables all transition animations
 [`indentguide`](plugins/indentguide.lua?raw=1) | Adds indent guides *([screenshot](https://user-images.githubusercontent.com/3920290/79640716-f9860000-818a-11ea-9c3b-26d10dd0e0c0.png))*
 [`language_angelscript`](plugins/language_angelscript.lua?raw=1) | Syntax for the [Angelscript](https://www.angelcode.com/angelscript/) programming language
