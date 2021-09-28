@@ -29,7 +29,6 @@ Plugin | Description
 [`eval`](plugins/eval.lua?raw=1) | Replaces selected Lua code with its evaluated result
 [`exec`](plugins/exec.lua?raw=1) | Runs selected text through shell command and replaces with result
 [`fallbackfonts`](https://github.com/takase1121/lite-fallback-fonts)* | Adds support for fallback fonts *([gif](https://raw.githubusercontent.com/takase1121/lite-fallback-fonts/master/assets/Iw18fI57J0.gif))*
-[`fountain`](plugins/fountain.lua?raw=1) | Adds rudimentary fountain syntax coloring
 [`ghmarkdown`](plugins/ghmarkdown.lua?raw=1) | Opens a preview of the current markdown file in a browser window *([screenshot](https://user-images.githubusercontent.com/3920290/82754898-f7394600-9dc7-11ea-8278-2305363ed372.png))*
 [`gitstatus`](plugins/gitstatus.lua?raw=1) | Displays git branch and insert/delete count in status bar *([screenshot](https://user-images.githubusercontent.com/3920290/81107223-bcea3080-8f0e-11ea-8fc7-d03173f42e33.png))*
 [`gofmt`](plugins/gofmt.lua?raw=1) | Auto-formats the current go file, adds the missing imports and the missing return cases
@@ -48,6 +47,7 @@ Plugin | Description
 [`language_elm`](plugins/language_elm.lua?raw=1) | Syntax for the [Elm](https://elm-lang.org) programming language
 [`language_fe`](plugins/language_fe.lua?raw=1) | Syntax for the [fe](https://github.com/rxi/fe) programming language
 [`language_fennel`](plugins/language_fennel.lua?raw=1) | Syntax for the [fennel](https://fennel-lang.org) programming language
+[`language_fountain`](plugins/language_fountain.lua?raw=1) | Adds rudimentary fountain syntax coloring
 [`language_gdscript`](plugins/language_gdscript.lua?raw=1) | Syntax for the [Godot Engine](https://godotengine.org/)'s GDScript scripting language
 [`language_glsl`](plugins/language_glsl.lua?raw=1) | Syntax for the [GLSL](https://www.khronos.org/registry/OpenGL/specs/gl/) programming language
 [`language_go`](plugins/language_go.lua?raw=1) | Syntax for the [Go](https://golang.org/) programming language
