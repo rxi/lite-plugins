@@ -13,14 +13,16 @@ syntax.add {
 		{ pattern = { "/%*", "%*/" },       type = "comment"  },
 		{ pattern = { "%[%[", "%]%]" },       type = "string"  },
 		{ pattern = { "%(", "%)", "\\" },       type = "paren"  },
+		{ pattern = "#.*\n",       type = "header" },
+		{ pattern = "[a-zA-Z ]+%: .*\n",      type = "property" },
+		{ pattern = "[^a-zA-Z ]+.*%: .*\n",      type = "normal" },
 		{ pattern = "INT[%. ].*\n",       type = "function" },
 		{ pattern = "EXT[%. ].*\n",       type = "function" },
 		{ pattern = "EST[%. ].*\n",       type = "function" },
 		{ pattern = "INT%.?/EXT[%. ].*\n",       type = "function" },
 		{ pattern = "I/E[%. ].*\n",       type = "function" },
-		{ pattern = "#.*\n",       type = "header" },
-		{ pattern = ".*%: .*\n",      type = "property" },
 		{ pattern = "[A-Z][^a-z]+\n",      type = "caps" },
+
 	},
 	symbols = {
 	},
