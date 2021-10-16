@@ -79,6 +79,7 @@ Plugin | Description
 [`lint+`](https://github.com/liquid600pgm/lintplus)* | Advanced linter with ErrorLens-like error reporting. Compatible with linters made for `linter` *([screenshot](https://raw.githubusercontent.com/liquid600pgm/lintplus/master/screenshots/1.png))*
 [`macmodkeys`](plugins/macmodkeys.lua?raw=1) | Remaps mac modkeys `command/option` to `ctrl/alt`
 [`markers`](plugins/markers.lua?raw=1) | Add markers to docs and jump between them quickly *([screenshot](https://user-images.githubusercontent.com/3920290/82252149-5faaa200-9946-11ea-9199-bea2efb7ee23.png))*
+[`memusage`*](https://git.sr.ht/~tmpod/memusage-lite) | Tiny plugin to display lite's Lua memory usage *([screenshot](https://user-images.githubusercontent.com/35771816/95004562-3bd9b700-05dc-11eb-9a91-b69a3ebfa5e9.png))*
 [`motiontrail`](plugins/motiontrail.lua?raw=1) | Adds a motion-trail to the caret *([screenshot](https://user-images.githubusercontent.com/3920290/83256814-085ccb00-a1ab-11ea-9e35-e6633cbed1a9.gif))*
 [`nagbar`](https://github.com/takase1121/lite-nagbar)* | consistent and _beautiful_ confirmation dialogs for lite and lite-xl *([gif](https://raw.githubusercontent.com/takase1121/lite-nagbar/master/assets/preview.gif))*
 [`openfilelocation`](plugins/openfilelocation.lua?raw=1) | Opens the parent directory of the current file in the file manager
