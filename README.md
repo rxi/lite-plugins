@@ -98,3 +98,4 @@ Plugin | Description
 [`togglesnakecamel`](plugins/togglesnakecamel.lua?raw=1) | Toggles symbols between `snake_case` and `camelCase`
 [`unboundedscroll`](plugins/unboundedscroll.lua?raw=1) | Allows scrolling outside the bounds of a document
 [`workspace`](plugins/workspace.lua?raw=1) | Retains project's layout and open documents between sessions
+[`zeal_search`](plugins/zeal_search.lua?raw=1) | Offline documentation search in Zeal
