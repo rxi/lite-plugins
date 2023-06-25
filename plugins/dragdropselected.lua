@@ -13,12 +13,12 @@
   TODO: change mouse cursor when duplicating (requires change in cpp/SDL2)
 --]]
 local core = require "core"
-local style = require "core.style"
+local command = require "core.command"
 local common = require "core.common"
 local config = require "core.config"
 local DocView = require "core.docview"
 local keymap = require "core.keymap"
-local command = require "core.command"
+local style = require "core.style"
 
 local dnd = {}
 
@@ -287,40 +287,52 @@ function dnd.abort(oDocView)
 
   oDocView = oDocView or core.active_view
   if oDocView.dnd_bDragging then
+    -- ensure the selection is set as it was
     oDocView:dnd_setSelection()
   end
   dnd.reset(oDocView)
 end -- dnd.abort
 
 
-function dnd.predicate()
+function dnd.abortPredicate()
   if not config.dragdropselected.enabled
     or not core.active_view:is(DocView)
     or not core.active_view.dnd_bDragging
   then return false end
 
   return true, core.active_view
-end -- dnd.predicate
+end -- dnd.abortPredicate
+
+
+function dnd.showStatus(s)
+  if not core.status_view then return end
+
+  core.status_view:show_message('i', style.text, s)
+end -- dnd.showStatus
 
 
 function dnd.toggleEnabled()
   config.dragdropselected.enabled = not config.dragdropselected.enabled
-  core.status_view:show_message('i', style.text, 'Drag n\' Drop is '
+  dnd.showStatus('Drag n\' Drop is '
       .. (config.dragdropselected.enabled and 'en' or 'dis') .. 'abled')
-end
+
+end -- dnd.toggleEnabled
 
 
 function dnd.toggleSticky()
   config.dragdropselected.useSticky = not config.dragdropselected.useSticky
-  core.status_view:show_message('i', style.text, 'Sticky mode is '
+  dnd.showStatus('Sticky mode is '
       .. (config.dragdropselected.useSticky and 'en' or 'dis') .. 'abled')
-end
 
-command.add('core.docview', {
-  ['dragdropselected:toggleEnabled'] = dnd.toggleEnabled,
-  ['dragdropselected:toggleSticky'] =  dnd.toggleSticky
+end -- dnd.toggleSticky
+
+
+command.add(nil, {
+  ['dragdropselected:toggle-enabled'] = dnd.toggleEnabled,
+  ['dragdropselected:toggle-sticky'] =  dnd.toggleSticky
 })
-command.add(dnd.predicate, { ['dragdropselected:abort'] = dnd.abort })
+
+command.add(dnd.abortPredicate, { ['dragdropselected:abort'] = dnd.abort })
 keymap.add({ ['escape'] = 'dragdropselected:abort' })
 
 
