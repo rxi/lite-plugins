@@ -12,6 +12,8 @@
            - added sticky mode to help against finger strain from holding mouse
               button during entire drag procedure
            - moved/copied portion is now selected after operation
+           - during drag operation an extra caret is shown to indicate exact
+              insertion location and real caret is not blinking
   original: 20200627_133351 by SwissalpS
 
   TODO: write work-around for https://github.com/rxi/lite/issues/313
@@ -141,6 +143,7 @@ function dnd.reset(oDocView)
   oDocView.dnd_lSelection = nil
   oDocView.dnd_bDragging = nil
   oDocView.dnd_bBlink = nil
+  oDocView.dnd_lCaret = nil
   oDocView.cursor = 'ibeam'
   oDocView.dnd_sText = nil
 end -- dnd.reset
@@ -166,10 +169,9 @@ function DocView:on_mouse_moved(x, y, ...)
     -- make sure selection is marked
     self:dnd_setSelection()
   end
-  -- calculate line and column for current mouse position
+  -- show insert location, if not in selection
   local iLine, iCol = self:resolve_screen_position(x, y)
-  -- TODO: show insert location
-  --self.doc:add_selection(iLine, iCol)
+  self.dnd_lCaret = not self:dnd_isInSelection(x, y) and { iLine, iCol } or nil
   -- update scroll position, if needed
   self:scroll_to_line(iLine, true)
   return true
@@ -202,9 +204,6 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
 
   -- stash selection for inserting later
   self.dnd_sText = dnd.getSelectedText(self.doc)
-  -- disable blinking caret and stash user setting
-  self.dnd_bBlink = config.disable_blink
-  config.disable_blink = true
   return true
 end -- DocView:on_mouse_pressed
 
@@ -277,18 +276,28 @@ function DocView:on_mouse_released(button, x, y)
   return on_mouse_released(self, button, x, y)
 end -- DocView:on_mouse_released
 
---[[
-local draw_caret = DocView.draw_caret
-function DocView:draw_caret(x, y)
-  if self.dnd_sText and config.dragdropselected.enabled then
-    -- don't show carets inside selections
-    if self:dnd_isInSelection(x, y, true) then
-      return
-    end
+
+-- draw extra caret when dragging to indicate exact insert location
+local draw_line_body = DocView.draw_line_body
+function DocView:draw_line_body(idx, x, y)
+  -- disable blinking caret during drag operation
+  if self.dnd_bDragging then
+    self.blink_timer = 0
   end
-  return draw_caret(self, x, y)
-end -- DocView:draw_caret()
---]]
+  -- draw everything normally (except for caret blink)
+  draw_line_body(self, idx, x, y)
+  if not self.dnd_lCaret then return end
+
+  -- check that current line is the line with insertion caret
+  local iLine, iCol = table.unpack(self.dnd_lCaret)
+  if idx ~= iLine then return end
+
+  -- draw insertion caret
+  local iH = self:get_line_height()
+  local iX = x + self:get_col_x_offset(iLine, iCol)
+  renderer.draw_rect(iX, y, style.caret_width, iH, style.caret)
+end -- DocView:draw_line_body
+
 
 -- disable text_input during drag operations
 local on_text_input = DocView.on_text_input
