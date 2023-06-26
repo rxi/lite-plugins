@@ -1,6 +1,6 @@
 --[[
   dragdropselected.lua
-  provides basic drag and drop of selected text (in same document)
+  provides drag and drop of selected text (in same document)
   - LMB+drag selected text to move it elsewhere
   - or LMB on selection and then LMB at destination (if sticky is enabled)
   - hold ctrl on release to copy selection
@@ -67,7 +67,7 @@ end -- DocView:dnd_collectSelection
 
 
 function dnd.getSelectedText(doc)
-  local iLine1, iCol1, iLine2, iCol2, bSwap = doc:get_selection(true)
+  local iLine1, iCol1, iLine2, iCol2 = doc:get_selection(true)
   -- skip empty markers
   if iLine1 ~= iLine2 or iCol1 ~= iCol2 then
     return doc:get_text(iLine1, iCol1, iLine2, iCol2)
@@ -95,8 +95,8 @@ function DocView:dnd_isInSelection(iX, iY, bDuplicating)
     if iX2 < iX then return nil end
   end
 --]]
-  local iLine1, iCol1, iLine2, iCol2, bSwap
-  iLine1, iCol1, iLine2, iCol2, bSwap = table.unpack(self.dnd_lSelection)
+  local iLine1, iCol1, iLine2, iCol2
+  iLine1, iCol1, iLine2, iCol2 = table.unpack(self.dnd_lSelection)
   if bDuplicating then
     -- adjust boundries for duplication actions
     -- this allows users to duplicate selection adjacent to selection
@@ -115,6 +115,7 @@ function DocView:dnd_isInSelection(iX, iY, bDuplicating)
   if dnd.isInSelection(iLine, iCol, iLine1, iCol1, iLine2, iCol2) then
     return self.dnd_lSelection
   end
+
   return nil
 end -- DocView:dnd_isInSelection
 
@@ -125,7 +126,7 @@ function DocView:dnd_setSelection()
     return
   end
   self.doc:set_selection(table.unpack(self.dnd_lSelection))
-end -- DocView:dnd_setSelections
+end -- DocView:dnd_setSelection
 
 
 -- unset stashes and flag, reset cursor
@@ -142,7 +143,6 @@ function dnd.reset(oDocView)
   end
   oDocView.dnd_lSelection = nil
   oDocView.dnd_bDragging = nil
-  oDocView.dnd_bBlink = nil
   oDocView.dnd_lCaret = nil
   oDocView.cursor = 'ibeam'
   oDocView.dnd_sText = nil
@@ -152,17 +152,13 @@ end -- dnd.reset
 local on_mouse_moved = DocView.on_mouse_moved
 function DocView:on_mouse_moved(x, y, ...)
   if not config.dragdropselected.enabled or not self.dnd_sText then
-    -- there is nothing to do -> hand off to original on_mouse_moved()
     return on_mouse_moved(self, x, y, ...)
   end
 
   -- not sure we need to do this or if we better not
   DocView.super.on_mouse_moved(self, x, y, ...)
 
-  if self.dnd_bDragging then
-    -- remove last caret showing insert location
-    --self.doc:remove_selection(self.doc.last_selection)
-  else
+  if not self.dnd_bDragging then
     self.dnd_bDragging = true
     -- show that we are dragging something
     self.cursor = 'hand'
@@ -198,7 +194,6 @@ function DocView:on_mouse_pressed(button, x, y, clicks)
     or not self:dnd_isInSelection(x, y)
   then
     dnd.reset(self)
-    -- let 'old' on_mouse_pressed() do whatever it needs to do
     return on_mouse_pressed(self, button, x, y, clicks)
   end
 
@@ -215,10 +210,12 @@ function DocView:on_mouse_released(button, x, y)
   if self.state and self.suggestions then
     return on_mouse_released(self, button, x, y)
   end
-  -- nothing to do if: not enabled or never clicked into selection
+
+  -- nothing to do if: not enabled,
+  -- never clicked into selection or not left button
   if not config.dragdropselected.enabled
-    or not self.dnd_sText
     or 'left' ~= button
+    or not self.dnd_sText
   then
     return on_mouse_released(self, button, x, y)
   end
@@ -234,12 +231,7 @@ function DocView:on_mouse_released(button, x, y)
   end
 
   local bDuplicating = keymap.modkeys['ctrl']
-  if self:dnd_isInSelection(x, y, bDuplicating) then
-    -- drag aborted by releasing mouse inside selection
-    --self.doc:remove_selection(self.doc.last_selection)
-    --self.doc:set_selection(iLine, iCol)
-  else
-    local iLength = #self.dnd_sText
+  if not self:dnd_isInSelection(x, y, bDuplicating) then
     local iLine1, iCol1, iLine2, iCol2 = table.unpack(self.dnd_lSelection)
     if iLine < iLine1 or (iLine == iLine1 and iCol < iCol1) then
       -- insertion point is before selection --> delete first
@@ -247,29 +239,23 @@ function DocView:on_mouse_released(button, x, y)
         self.doc:remove(iLine1, iCol1, iLine2, iCol2)
       end
       self.doc:insert(iLine, iCol, self.dnd_sText)
-      self.doc:set_selection(iLine, iCol,
-          self.doc:position_offset(iLine, iCol, iLength))
-
     else
       -- insertion point is after selection --> insert first
       -- cache offset in case insertion is on same line as last selected line
       local iRest = #self.doc.lines[iLine2]:sub(iCol2, iCol - 1)
       self.doc:insert(iLine, iCol, self.dnd_sText)
-      if bDuplicating then
-        self.doc:set_selection(iLine, iCol,
-            self.doc:position_offset(iLine, iCol, iLength))
-
-      else
+      if not bDuplicating then
         self.doc:remove(iLine1, iCol1, iLine2, iCol2)
+        -- adjust new selection
         if iLine == iLine2 then
           iCol = iCol1 + iRest
         end
         iLine = iLine - iLine2 + iLine1
-        self.doc:set_selection(iLine, iCol,
-            self.doc:position_offset(iLine, iCol, iLength))
-
       end
     end
+    -- finally select inserted text
+    self.doc:set_selection(iLine, iCol,
+        self.doc:position_offset(iLine, iCol, #self.dnd_sText))
   end
   -- unset stashes and flag
   dnd.reset(self)
@@ -340,7 +326,7 @@ end -- dnd.showStatus
 
 function dnd.toggleEnabled()
   config.dragdropselected.enabled = not config.dragdropselected.enabled
-  dnd.showStatus('Drag n\' Drop is '
+  dnd.showStatus("Drag n' Drop is "
       .. (config.dragdropselected.enabled and 'en' or 'dis') .. 'abled')
 
 end -- dnd.toggleEnabled
