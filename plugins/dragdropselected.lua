@@ -6,8 +6,15 @@
   - hold ctrl on release to copy selection
   - press escape to abort
   version: 20230616_094245 by SwissalpS
+  changes: - (regretably) dragged selection is no longer deleted when drag starts
+              this follows procedure that most editors use.
+           - ctrl is checked on release, previously on drag-start/mouse-down
+           - added sticky mode to help against finger strain from holding mouse
+              button during entire drag procedure
+           - moved/copied portion is now selected after operation
   original: 20200627_133351 by SwissalpS
 
+  TODO: write work-around for https://github.com/rxi/lite/issues/313
   TODO: add dragging image
   TODO: use OS drag and drop events
   TODO: change mouse cursor when duplicating (requires change in cpp/SDL2)
@@ -76,6 +83,7 @@ function DocView:dnd_isInSelection(iX, iY, bDuplicating)
   if not self.dnd_lSelection then return nil end
 
   local iLine, iCol = self:resolve_screen_position(iX, iY)
+--[[ we can't have this behaviour yet, see: https://github.com/rxi/lite/issues/313
   if config.dragdropselected.useSticky and not self.dnd_bDragging then
     -- allow user to clear selection in sticky mode by clicking in empty area
     -- to the right of selection
@@ -84,7 +92,7 @@ function DocView:dnd_isInSelection(iX, iY, bDuplicating)
     -- it means selection can't be grabbed by the "\n" at the end
     if iX2 < iX then return nil end
   end
-
+--]]
   local iLine1, iCol1, iLine2, iCol2, bSwap
   iLine1, iCol1, iLine2, iCol2, bSwap = table.unpack(self.dnd_lSelection)
   if bDuplicating then
@@ -209,12 +217,15 @@ function DocView:on_mouse_released(button, x, y)
     return on_mouse_released(self, button, x, y)
   end
   -- nothing to do if: not enabled or never clicked into selection
-  if not config.dragdropselected.enabled or not self.dnd_sText then
+  if not config.dragdropselected.enabled
+    or not self.dnd_sText
+    or 'left' ~= button
+  then
     return on_mouse_released(self, button, x, y)
   end
 
   local iLine, iCol = self:resolve_screen_position(x, y)
-  if not self.dnd_sText then--bDragging then
+  if not self.dnd_bDragging then
     if not config.dragdropselected.useSticky then
       -- not using sticky -> clear selection
       self.doc:set_selection(iLine, iCol)
@@ -229,30 +240,37 @@ function DocView:on_mouse_released(button, x, y)
     --self.doc:remove_selection(self.doc.last_selection)
     --self.doc:set_selection(iLine, iCol)
   else
-    -- do some calculations for selecting inserted text
-    local iAdditionalLines, sLast = -1, ''
-    for s in (self.dnd_sText .. "\n"):gmatch("(.-)\n") do
-      iAdditionalLines = iAdditionalLines + 1
-      sLast = s
-    end
-    local iLastLength = #sLast
-    -- have doc handle selection updates
-    self.doc:insert(iLine, iCol, self.dnd_sText)
-    -- add a marker so we know where to start selecting pasted text
-    --self.doc:add_selection(iLine, iCol)
-    if not bDuplicating then
-      self.doc:delete_to(0)
-    end
-    -- get new location of inserted text
-    --iLine, iCol = self.doc:get_selection_idx(self.doc.last_selection, true)
-    local iLine2, iCol2 = iLine + iAdditionalLines
-    if iLine == iLine2 then
-      iCol2 = iCol + iLastLength
+    local iLength = #self.dnd_sText
+    local iLine1, iCol1, iLine2, iCol2 = table.unpack(self.dnd_lSelection)
+    if iLine < iLine1 or (iLine == iLine1 and iCol < iCol1) then
+      -- insertion point is before selection --> delete first
+      if not bDuplicating then
+        self.doc:remove(iLine1, iCol1, iLine2, iCol2)
+      end
+      self.doc:insert(iLine, iCol, self.dnd_sText)
+      self.doc:set_selection(iLine, iCol,
+          self.doc:position_offset(iLine, iCol, iLength))
+
     else
-      iCol2 = iLastLength + 1
+      -- insertion point is after selection --> insert first
+      -- cache offset in case insertion is on same line as last selected line
+      local iRest = #self.doc.lines[iLine2]:sub(iCol2, iCol - 1)
+      self.doc:insert(iLine, iCol, self.dnd_sText)
+      if bDuplicating then
+        self.doc:set_selection(iLine, iCol,
+            self.doc:position_offset(iLine, iCol, iLength))
+
+      else
+        self.doc:remove(iLine1, iCol1, iLine2, iCol2)
+        if iLine == iLine2 then
+          iCol = iCol1 + iRest
+        end
+        iLine = iLine - iLine2 + iLine1
+        self.doc:set_selection(iLine, iCol,
+            self.doc:position_offset(iLine, iCol, iLength))
+
+      end
     end
-    -- finally select inserted text
-    self.doc:set_selection(iLine, iCol, iLine2, iCol2)
   end
   -- unset stashes and flag
   dnd.reset(self)
