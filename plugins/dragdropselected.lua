@@ -14,6 +14,9 @@
            - moved/copied portion is now selected after operation
            - during drag operation an extra caret is shown to indicate exact
               insertion location and real caret is not blinking
+  thanks to: github.com/Guldoman for his valuable inputs while I was re-writing
+             this plugin for lite-xl. The plugin turned out a lot better and
+             thus the re-write for lite also turned out better.
   original: 20200627_133351 by SwissalpS
 
   TODO: write work-around for https://github.com/rxi/lite/issues/313
