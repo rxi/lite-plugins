@@ -8,7 +8,7 @@ local syntax = require "core.syntax"
 
 syntax.add {
   files = "%.fnl$",
-  comment = ";",
+  comment = ";;",
   patterns = {
     { pattern = ";.-\n",              type = "comment"  },
     { pattern = { '"', '"', '\\' },   type = "string"   },
